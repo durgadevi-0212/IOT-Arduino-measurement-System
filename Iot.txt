@@ -1,0 +1,41 @@
+const int trigPin = 9;  // Trigger pin
+const int echoPin = 10;  // Echo pin
+const int ledPin = 13;   // LED pin
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+  pinMode(ledPin, OUTPUT);
+}
+
+void loop() {
+  // Clear the trigPin
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+
+  // Set the trigPin HIGH (ACTIVE) for 10 microseconds
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+
+  // Read the echoPin, return the sound wave travel time in microseconds
+  long duration = pulseIn(echoPin, HIGH);
+
+  // Calculate the distance
+  float distance = duration * 0.034 / 2;
+
+  // Print the distance
+  Serial.print("Distance: ");
+  Serial.print(distance);
+  Serial.println(" cm");
+
+  // Turn on the LED if the distance is less than 50 cm
+  if (distance < 50) {
+    digitalWrite(ledPin, HIGH);
+  } else {
+    digitalWrite(ledPin, LOW);
+  }
+
+  delay(1000);
+}
